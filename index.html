@@ -16,7 +16,7 @@
   
   <title>CryptoRaro's Dojo</title>
   
-  <!-- AOS CSS (stable v2.3.4 from jsDelivr / cdnjs) -->
+  <!-- AOS CSS (stable v2.3.4) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" integrity="sha256-1cK78a1KyZRiowuRCWwctRAbGwZzwhA/0+AUO9q1xw=" crossorigin="anonymous"/>
   
   <style>
@@ -25,12 +25,14 @@
       --text: #121212;
       --accent: #00d4ff;
       --glow: rgba(0, 212, 255, 0.6);
+      --card-bg: rgba(255, 255, 255, 0.7);
     }
     body.dark {
       --bg: #0a0a1f;
       --text: #e0e0ff;
       --accent: #00ffff;
       --glow: rgba(0, 255, 255, 0.5);
+      --card-bg: rgba(20, 20, 50, 0.7);
     }
     body {
       margin: 0;
@@ -42,7 +44,7 @@
       line-height: 1.6;
     }
     .container {
-      max-width: 900px;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 4rem 1.5rem;
       text-align: center;
@@ -83,8 +85,58 @@
       transform: translateY(-3px);
       box-shadow: 0 8px 20px rgba(0, 212, 255, 0.4);
     }
+    /* Projects Section */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .project-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: left;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .project-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 40px rgba(0, 212, 255, 0.3);
+    }
+    .project-title {
+      font-size: 1.6rem;
+      margin-bottom: 0.8rem;
+      color: var(--accent);
+    }
+    .project-desc {
+      margin-bottom: 1.2rem;
+      opacity: 0.9;
+    }
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1.2rem;
+    }
+    .tech-tag {
+      background: rgba(0, 212, 255, 0.2);
+      color: var(--accent);
+      padding: 0.4rem 0.9rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+    }
+    .project-links a {
+      margin-right: 1rem;
+      font-weight: bold;
+    }
+    section {
+      margin-bottom: 6rem;
+    }
     @media (prefers-color-scheme: dark) {
-      body.light { /* override if user prefers dark but forced light */ }
+      body.light { }
     }
   </style>
 </head>
@@ -106,6 +158,62 @@
       <p><a href="https://x.com/CryptoRaro" target="_blank" rel="noopener noreferrer">Find me on X →</a></p>
     </section>
 
+    <!-- New Projects Section -->
+    <section data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
+      <h2>Dojo Projects</h2>
+      <p>Some experiments and builds I'm working on in the blockchain space.</p>
+      
+      <div class="projects-grid">
+        <!-- Project 1 -->
+        <div class="project-card" data-aos="fade-up" data-aos-delay="100">
+          <h3 class="project-title">Token Forge</h3>
+          <p class="project-desc">A simple ERC-20 token factory with minting controls, burn functions, and basic governance. Deployed on Sepolia testnet for experiments.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">Solidity</span>
+            <span class="tech-tag">Hardhat</span>
+            <span class="tech-tag">Ethers.js</span>
+            <span class="tech-tag">React</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/cryptoRaro/token-forge" target="_blank">GitHub →</a>
+            <a href="https://token-forge-demo.vercel.app" target="_blank">Live Demo →</a>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="project-card" data-aos="fade-up" data-aos-delay="200">
+          <h3 class="project-title">NFT Dojo Minter</h3>
+          <p class="project-desc">Dynamic NFT collection with on-chain metadata, rarity traits, and wallet-based access. Exploring generative art on-chain.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">Solidity</span>
+            <span class="tech-tag">ERC-721</span>
+            <span class="tech-tag">IPFS</span>
+            <span class="tech-tag">Web3.js</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/cryptoRaro/nft-dojo" target="_blank">GitHub →</a>
+            <a href="#" target="_blank">Live Demo →</a> <!-- update when ready -->
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="project-card" data-aos="fade-up" data-aos-delay="300">
+          <h3 class="project-title">Chain Vibes Dashboard</h3>
+          <p class="project-desc">Personal Web3 dashboard to track wallet balances, token prices (via Coingecko API), and recent txns across multiple chains.</p>
+          <div class="tech-tags">
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">Ethers.js</span>
+            <span class="tech-tag">Tailwind</span>
+            <span class="tech-tag">API Integration</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/cryptoRaro/chain-vibes" target="_blank">GitHub →</a>
+            <a href="#" target="_blank">Live Demo →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <button id="theme-toggle" data-aos="zoom-in" data-aos-delay="600">
       Toggle Theme 🌓
     </button>
@@ -115,19 +223,19 @@
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js" integrity="sha256-Z2oX3a08y+iyG2kS2+6p4/8G2r6v5f9pI6F3aL8g==" crossorigin="anonymous"></script>
   
   <script>
-    // AOS initialization
+    // AOS init
     AOS.init({
       duration: 800,
       easing: 'ease-out',
-      once: true,          // animate only once
-      offset: 80           // start a bit earlier
+      once: true,
+      offset: 80
     });
 
     // Theme handling
     const toggleButton = document.getElementById('theme-toggle');
     const body = document.body;
 
-    // Detect system preference on load
+    // Load saved or system preference
     if (!localStorage.getItem('theme')) {
       if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         body.classList.add('dark');
@@ -141,7 +249,7 @@
       body.classList.remove(localStorage.getItem('theme') === 'dark' ? 'light' : 'dark');
     }
 
-    // Toggle & save preference
+    // Toggle & persist
     toggleButton.addEventListener('click', () => {
       if (body.classList.contains('dark')) {
         body.classList.remove('dark');
@@ -154,9 +262,5 @@
       }
     });
   </script>
-</body>
-</html>
-  </script>
-  
 </body>
 </html>
