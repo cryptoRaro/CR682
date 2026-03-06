@@ -16,8 +16,8 @@
   
   <title>CryptoRaro's Dojo</title>
   
-  <!-- AOS CSS (stable v2.3.4) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" integrity="sha256-1cK78a1KyZRiowuRCWwctRAbGwZzwhA/0+AUO9q1xw=" crossorigin="anonymous"/>
+  <!-- AOS CSS (stable v2.3.4) – removed integrity to avoid potential mismatch errors -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" crossorigin="anonymous"/>
   
   <style>
     :root {
@@ -135,9 +135,6 @@
     section {
       margin-bottom: 6rem;
     }
-    @media (prefers-color-scheme: dark) {
-      body.light { }
-    }
   </style>
 </head>
 <body>
@@ -219,8 +216,8 @@
     </button>
   </div>
 
-  <!-- AOS JS -->
-  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js" integrity="sha256-Z2oX3a08y+iyG2kS2+6p4/8G2r6v5f9pI6F3aL8g==" crossorigin="anonymous"></script>
+  <!-- AOS JS – removed integrity to avoid potential mismatch errors -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js" crossorigin="anonymous"></script>
   
   <script>
     // AOS init
