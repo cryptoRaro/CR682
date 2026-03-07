@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" class="light">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Crypto Market Trades and Trends – Live prices, charts & real-time crypto insights"/>
+  <meta name="description" content="Crypto Market Trades and Trends – Live prices, charts, news & crypto insights"/>
   <title>Crypto Market Trades and Trends</title>
 
   <!-- Inter font -->
@@ -22,53 +22,46 @@
       --bg: #ffffff;
       --surface: #f9fafb;
       --text: #111827;
-      --text-muted: #6b7280;
+      --muted: #6b7280;
       --accent: #2563eb;
-      --accent-light: #3b82f6;
       --positive: #16a34a;
       --negative: #dc2626;
       --border: #e5e7eb;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+      --shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
     body.dark {
       --bg: #0f172a;
       --surface: #1e293b;
       --text: #f1f5f9;
-      --text-muted: #94a3b8;
+      --muted: #94a3b8;
       --accent: #60a5fa;
-      --accent-light: #93c5fd;
       --border: #334155;
     }
     body {
       font-family: 'Inter', system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
+      margin: 0;
       min-height: 100vh;
       line-height: 1.6;
-      transition: background 0.4s ease, color 0.4s ease;
     }
     .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
     header { padding: 5rem 0 3rem; text-align: center; }
     h1 {
       font-family: 'Pirata One', cursive;
-      font-size: clamp(3rem, 8vw, 5rem);
+      font-size: clamp(3rem, 8vw, 5.5rem);
       margin-bottom: 1rem;
     }
-    .lead { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem; }
-    section { padding: 4rem 0; }
+    .lead { font-size: 1.2rem; color: var(--muted); max-width: 600px; margin: 0 auto 2rem; }
+    section { padding: 5rem 0; }
     h2 { font-size: 2.25rem; text-align: center; margin-bottom: 2rem; }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1.5rem;
-    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 1rem;
       padding: 1.5rem;
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow);
       transition: transform 0.2s;
     }
     .card:hover { transform: translateY(-4px); }
@@ -78,23 +71,22 @@
     .price-value { font-size: 1.9rem; font-weight: 700; }
     .change-positive { color: var(--positive); }
     .change-negative { color: var(--negative); }
-    #chart-container { height: 500px; border-radius: 1rem; overflow: hidden; border: 1px solid var(--border); background: var(--surface); margin: 2rem 0; }
-    .chart-options {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: center;
-      margin-bottom: 1.5rem;
-    }
-    .chart-options select {
-      padding: 0.6rem 1rem;
-      border: 1px solid var(--border);
+    #chart-container { height: 480px; border-radius: 1rem; overflow: hidden; border: 1px solid var(--border); background: var(--surface); margin: 2rem 0; }
+    .news-card img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
       border-radius: 0.75rem;
-      background: var(--surface);
-      color: var(--text);
-      font-size: 1rem;
-      cursor: pointer;
+      margin-bottom: 1rem;
     }
+    .news-title a {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .news-title a:hover { text-decoration: underline; }
+    .news-meta { font-size: 0.9rem; color: var(--muted); margin-top: 0.5rem; }
     #theme-toggle {
       position: fixed;
       bottom: 1.5rem;
@@ -104,7 +96,7 @@
       background: var(--surface);
       border: 1px solid var(--border);
       cursor: pointer;
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow);
       backdrop-filter: blur(10px);
       z-index: 100;
     }
@@ -112,8 +104,8 @@
     @media (max-width: 768px) {
       header { padding: 4rem 0 2rem; }
       h1 { font-size: 2.8rem; }
-      h2 { font-size: 1.875rem; }
-      #chart-container { height: 400px; }
+      h2 { font-size: 2rem; }
+      #chart-container { height: 360px; }
     }
   </style>
 </head>
@@ -121,41 +113,28 @@
 
   <header class="container">
     <h1>Crypto Market Trades and Trends</h1>
-    <p class="lead">Live prices, customizable charts & crypto insights</p>
+    <p class="lead">Live prices, charts, news & crypto insights</p>
   </header>
 
   <main class="container">
     <section data-aos="fade-up">
       <h2>Live Prices</h2>
       <div class="grid" id="prices-container">
-        <div style="grid-column:1/-1;text-align:center;padding:3rem 0;color:var(--text-muted);">
-          Loading prices...
-        </div>
+        <div style="grid-column:1/-1;text-align:center;padding:3rem 0;color:var(--muted);">Loading prices...</div>
       </div>
     </section>
 
     <section data-aos="fade-up" data-aos-delay="100">
-      <h2>Interactive Chart</h2>
-      <div class="chart-options">
-        <select id="chart-symbol">
-          <option value="BINANCE:BTCUSDT">BTC/USDT</option>
-          <option value="BINANCE:ETHUSDT">ETH/USDT</option>
-          <option value="BINANCE:SOLUSDT">SOL/USDT</option>
-          <option value="BINANCE:XRPUSDT">XRP/USDT</option>
-          <option value="BINANCE:DOGEUSDT">DOGE/USDT</option>
-        </select>
-        <select id="chart-interval">
-          <option value="1">1m</option>
-          <option value="5">5m</option>
-          <option value="15">15m</option>
-          <option value="60" selected>1h</option>
-          <option value="240">4h</option>
-          <option value="D">1D</option>
-          <option value="W">1W</option>
-        </select>
-      </div>
+      <h2>Market Chart</h2>
       <div id="chart-container">
         <div id="tv_chart" style="height:100%;width:100%"></div>
+      </div>
+    </section>
+
+    <section data-aos="fade-up" data-aos-delay="200">
+      <h2>Latest Crypto News</h2>
+      <div id="news-container" class="grid">
+        <div style="grid-column:1/-1;text-align:center;padding:3rem 0;color:var(--muted);">Loading news...</div>
       </div>
     </section>
   </main>
@@ -177,11 +156,10 @@
       body.classList.toggle('dark');
       body.classList.toggle('light');
       localStorage.setItem('theme', theme);
-      updateChart(); // Sync chart theme
     };
 
-    // Prices
-    const container = document.getElementById('prices-container');
+    // Live Prices
+    const pricesContainer = document.getElementById('prices-container');
     const coins = [
       { id: 'bitcoin', symbol: 'BTC' },
       { id: 'ethereum', symbol: 'ETH' },
@@ -207,7 +185,7 @@
         if (!res.ok) throw new Error('API error');
         const data = await res.json();
 
-        container.innerHTML = '';
+        pricesContainer.innerHTML = '';
 
         coins.forEach(({ id, symbol }) => {
           const d = data[id];
@@ -229,46 +207,62 @@
             </div>
             <div>24h: <span class="${cls}">${change}%</span></div>
           `;
-          container.appendChild(card);
+          pricesContainer.appendChild(card);
         });
       } catch (err) {
-        container.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--negative);">Failed to load prices</div>`;
+        pricesContainer.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--negative);">Failed to load prices</div>`;
       }
     }
 
     loadPrices();
     setInterval(loadPrices, 60000);
 
-    // TradingView chart with options
-    let tvWidget = null;
+    // TradingView chart
+    new TradingView.widget({
+      width: "100%",
+      height: "100%",
+      symbol: "BINANCE:BTCUSDT",
+      interval: "60",
+      timezone: "Etc/UTC",
+      theme: document.body.classList.contains('dark') ? "dark" : "light",
+      style: "1",
+      locale: "en",
+      enable_publishing: false,
+      allow_symbol_change: true,
+      container_id: "tv_chart"
+    });
 
-    function updateChart() {
-      const symbol = document.getElementById('chart-symbol').value;
-      const interval = document.getElementById('chart-interval').value;
+    // Real-time Crypto News (CoinGecko News API)
+    const newsContainer = document.getElementById('news-container');
+    async function loadNews() {
+      try {
+        const res = await fetch('https://api.coingecko.com/api/v3/news');
+        if (!res.ok) throw new Error('News API error');
+        const data = await res.json();
 
-      if (tvWidget) tvWidget.remove(); // Remove old widget
+        newsContainer.innerHTML = '';
 
-      tvWidget = new TradingView.widget({
-        width: "100%",
-        height: "100%",
-        symbol: symbol,
-        interval: interval,
-        timezone: "Etc/UTC",
-        theme: body.classList.contains('dark') ? "dark" : "light",
-        style: "1",
-        locale: "en",
-        enable_publishing: false,
-        allow_symbol_change: false, // Hide built-in symbol changer
-        container_id: "tv_chart"
-      });
+        data.data.slice(0, 8).forEach(article => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `
+            ${article.thumb_2x ? `<img src="${article.thumb_2x}" alt="${article.title}" loading="lazy" style="width:100%;height:140px;object-fit:cover;border-radius:0.75rem;margin-bottom:1rem;">` : ''}
+            <h3 style="margin:0.5rem 0;">
+              <a href="${article.url}" target="_blank" style="color:var(--accent);text-decoration:none;">
+                ${article.title}
+              </a>
+            </h3>
+            <p class="news-meta">${article.news_site} • ${new Date(article.published_at).toLocaleDateString()}</p>
+          `;
+          newsContainer.appendChild(card);
+        });
+      } catch (err) {
+        newsContainer.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--negative);">Failed to load news</div>`;
+      }
     }
 
-    // Listen to changes
-    document.getElementById('chart-symbol').addEventListener('change', updateChart);
-    document.getElementById('chart-interval').addEventListener('change', updateChart);
-
-    // Initial load
-    updateChart();
+    loadNews();
+    setInterval(loadNews, 15 * 60 * 1000); // 15 minutes
   </script>
 </body>
 </html>
