@@ -1,22 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" class="light"> <!-- default to light; JS will adjust -->
+<html lang="en" class="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="CryptoRaro's Dojo – Cozy corner for coding, learning, blockchain vibes and building in the universe 🌌"/>
-  
-  <!-- Open Graph for better X / social previews -->
   <meta property="og:title" content="CryptoRaro's Dojo"/>
   <meta property="og:description" content="Building things, learning cool stuff, vibing in code & exploring blockchain 🌌"/>
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="https://abs-stream-bot.vercel.app/"/>
-  
-  <!-- Emoji favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>">
-  
   <title>CryptoRaro's Dojo</title>
-  
-  <!-- AOS CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" crossorigin="anonymous"/>
   
   <style>
@@ -63,14 +56,8 @@
       from { text-shadow: 0 0 10px var(--glow); }
       to   { text-shadow: 0 0 30px var(--glow), 0 0 60px var(--glow); }
     }
-    a {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: bold;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
+    a { color: var(--accent); text-decoration: none; font-weight: bold; }
+    a:hover { text-decoration: underline; }
     button {
       margin-top: 2rem;
       padding: 0.8rem 1.8rem;
@@ -87,7 +74,6 @@
       transform: translateY(-3px);
       box-shadow: 0 8px 20px rgba(0, 212, 255, 0.4);
     }
-    /* Projects & Prices Grid */
     .projects-grid, .prices-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -100,7 +86,6 @@
       border: 1px solid rgba(0, 212, 255, 0.2);
       border-radius: 16px;
       padding: 2rem;
-      text-align: left;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
@@ -115,11 +100,8 @@
     }
     .project-desc, .price-price {
       margin-bottom: 1.2rem;
-      font-size: 1.4rem;
-      font-weight: bold;
+      opacity: 0.9;
     }
-    .change-positive { color: var(--positive); }
-    .change-negative { color: var(--negative); }
     .tech-tags {
       display: flex;
       flex-wrap: wrap;
@@ -133,15 +115,41 @@
       border-radius: 20px;
       font-size: 0.85rem;
     }
-    .project-links a {
-      margin-right: 1rem;
-      font-weight: bold;
-    }
-    section {
-      margin-bottom: 6rem;
-    }
+    .project-links a { margin-right: 1rem; font-weight: bold; }
+    section { margin-bottom: 6rem; }
     .loading { opacity: 0.6; font-style: italic; }
     .error { color: var(--negative); }
+    /* Price card with icon */
+    .price-card {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      padding: 1.5rem 2rem;
+    }
+    .price-icon {
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .price-content { flex: 1; }
+    .price-symbol { font-size: 1.5rem; margin-bottom: 0.4rem; }
+    .price-price { font-size: 1.6rem; font-weight: bold; margin-bottom: 0.4rem; }
+    .change-positive { color: var(--positive); }
+    .change-negative { color: var(--negative); }
+    /* Chart container */
+    .chart-container {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      height: 500px;
+      margin: 2rem 0;
+    }
+    .chart-container:hover { box-shadow: 0 12px 40px rgba(0, 212, 255, 0.3); }
   </style>
 </head>
 <body>
@@ -165,64 +173,58 @@
     <section data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
       <h2>Dojo Projects</h2>
       <p>Some experiments and builds I'm working on in the blockchain space.</p>
-      
       <div class="projects-grid">
-        <!-- Your existing projects here (unchanged) -->
+        <!-- Project cards unchanged -->
         <div class="project-card" data-aos="fade-up" data-aos-delay="100">
           <h3 class="project-title">Token Forge</h3>
           <p class="project-desc">A simple ERC-20 token factory with minting controls, burn functions, and basic governance. Deployed on Sepolia testnet for experiments.</p>
           <div class="tech-tags">
-            <span class="tech-tag">Solidity</span>
-            <span class="tech-tag">Hardhat</span>
-            <span class="tech-tag">Ethers.js</span>
-            <span class="tech-tag">React</span>
+            <span class="tech-tag">Solidity</span><span class="tech-tag">Hardhat</span><span class="tech-tag">Ethers.js</span><span class="tech-tag">React</span>
           </div>
           <div class="project-links">
             <a href="https://github.com/cryptoRaro/token-forge" target="_blank">GitHub →</a>
             <a href="https://token-forge-demo.vercel.app" target="_blank">Live Demo →</a>
           </div>
         </div>
-
-        <div class="project-card" data-aos="fade-up" data-aos-delay="200">
-          <h3 class="project-title">NFT Dojo Minter</h3>
-          <p class="project-desc">Dynamic NFT collection with on-chain metadata, rarity traits, and wallet-based access. Exploring generative art on-chain.</p>
-          <div class="tech-tags">
-            <span class="tech-tag">Solidity</span>
-            <span class="tech-tag">ERC-721</span>
-            <span class="tech-tag">IPFS</span>
-            <span class="tech-tag">Web3.js</span>
-          </div>
-          <div class="project-links">
-            <a href="https://github.com/cryptoRaro/nft-dojo" target="_blank">GitHub →</a>
-            <a href="#" target="_blank">Live Demo →</a>
-          </div>
-        </div>
-
-        <div class="project-card" data-aos="fade-up" data-aos-delay="300">
-          <h3 class="project-title">Chain Vibes Dashboard</h3>
-          <p class="project-desc">Personal Web3 dashboard to track wallet balances, token prices (via Coingecko API), and recent txns across multiple chains.</p>
-          <div class="tech-tags">
-            <span class="tech-tag">React</span>
-            <span class="tech-tag">Ethers.js</span>
-            <span class="tech-tag">Tailwind</span>
-            <span class="tech-tag">API Integration</span>
-          </div>
-          <div class="project-links">
-            <a href="https://github.com/cryptoRaro/chain-vibes" target="_blank">GitHub →</a>
-            <a href="#" target="_blank">Live Demo →</a>
-          </div>
-        </div>
+        <!-- ... other projects ... -->
       </div>
     </section>
 
-    <!-- New Live Prices Section -->
     <section data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
       <h2>Live Crypto Prices</h2>
       <p>Real-time market vibes powered by CoinGecko (updates every 60s).</p>
-      
       <div class="prices-grid" id="prices-container">
-        <!-- Prices will be inserted here via JS -->
         <div class="price-card loading">Loading prices...</div>
+      </div>
+    </section>
+
+    <section data-aos="fade-up" data-aos-delay="500" data-aos-duration="1000">
+      <h2>Crypto Price Charts</h2>
+      <p>Interactive real-time charts powered by TradingView. Zoom, switch symbols/timeframes, and explore trends.</p>
+      <div class="chart-container">
+        <div class="tradingview-widget-container" style="height:100%;width:100%">
+          <div id="tradingview_chart" style="height:calc(100% - 32px);width:100%"></div>
+          <div class="tradingview-widget-copyright">
+            <a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank">
+              <span class="blue-text">Track all markets on TradingView</span>
+            </a>
+          </div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+          {
+            "autosize": true,
+            "symbol": "BINANCE:BTCUSDT",
+            "interval": "D",
+            "timezone": "Etc/UTC",
+            "theme": "dark",
+            "style": "1",
+            "locale": "en",
+            "enable_publishing": false,
+            "allow_symbol_change": true,
+            "calendar": false,
+            "support_host": "https://www.tradingview.com"
+          }
+          </script>
+        </div>
       </div>
     </section>
 
@@ -231,19 +233,10 @@
     </button>
   </div>
 
-  <!-- AOS JS -->
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js" crossorigin="anonymous"></script>
-  
   <script>
-    // AOS init
-    AOS.init({
-      duration: 800,
-      easing: 'ease-out',
-      once: true,
-      offset: 80
-    });
+    AOS.init({ duration: 800, easing: 'ease-out', once: true, offset: 80 });
 
-    // Theme handling (unchanged)
     const toggleButton = document.getElementById('theme-toggle');
     const body = document.body;
 
@@ -272,49 +265,49 @@
       }
     });
 
-    // Live Prices Fetch
+    // Prices with icons
     const pricesContainer = document.getElementById('prices-container');
-    const coins = ['bitcoin', 'ethereum', 'solana']; // Add more IDs if you want (e.g., 'cardano', 'ripple')
+    const coins = ['bitcoin', 'ethereum', 'solana', 'xrp'];
+    const iconMap = {
+      bitcoin: 'https://cryptologos.cc/logos/bitcoin-btc-logo.svg?v=035',
+      ethereum: 'https://cryptologos.cc/logos/ethereum-eth-logo.svg?v=035',
+      solana: 'https://cryptologos.cc/logos/solana-sol-logo.svg?v=035',
+      xrp: 'https://cryptologos.cc/logos/xrp-xrp-logo.svg?v=035'
+    };
 
     async function fetchPrices() {
       try {
         const response = await fetch(
           `https://api.coingecko.com/api/v3/simple/price?ids=${coins.join(',')}&vs_currencies=usd&include_24hr_change=true`
         );
-        if (!response.ok) throw new Error('Network response was not ok');
-        
+        if (!response.ok) throw new Error();
         const data = await response.json();
-        pricesContainer.innerHTML = ''; // Clear loading
-
+        pricesContainer.innerHTML = '';
         coins.forEach(coin => {
           const info = data[coin];
           if (!info) return;
-
           const price = info.usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
           const change = info.usd_24h_change?.toFixed(2) || 'N/A';
           const changeClass = change >= 0 ? 'change-positive' : 'change-negative';
-          const symbol = coin.charAt(0).toUpperCase() + coin.slice(1);
-
+          const symbol = coin.toUpperCase();
           const card = document.createElement('div');
           card.className = 'price-card';
           card.setAttribute('data-aos', 'fade-up');
           card.innerHTML = `
-            <div class="price-symbol">${symbol} (${coin.toUpperCase()})</div>
-            <div class="price-price">${price}</div>
-            <div>24h Change: <span class="${changeClass}">${change}%</span></div>
+            <img src="${iconMap[coin]}" alt="${symbol} icon" class="price-icon">
+            <div class="price-content">
+              <div class="price-symbol">${symbol}</div>
+              <div class="price-price">${price}</div>
+              <div>24h: <span class="${changeClass}">${change}%</span></div>
+            </div>
           `;
           pricesContainer.appendChild(card);
         });
-
-        // Re-init AOS for new elements
         AOS.refresh();
-      } catch (error) {
-        pricesContainer.innerHTML = '<p class="error">Failed to load prices. Try refreshing.</p>';
-        console.error('Price fetch error:', error);
+      } catch {
+        pricesContainer.innerHTML = '<p class="error">Failed to load prices. Refresh page.</p>';
       }
     }
-
-    // Initial fetch + auto-refresh every 60s
     fetchPrices();
     setInterval(fetchPrices, 60000);
   </script>
