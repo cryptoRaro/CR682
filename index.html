@@ -1,129 +1,257 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Crypto Market Trades and Trends – Live prices, charts, breaking news & real-time crypto alpha"/>
   <title>Crypto Market Trades and Trends</title>
+
+  <!-- Inter: clean modern font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Pirata One for title -->
+  <link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap" rel="stylesheet">
+
+  <!-- AOS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" crossorigin="anonymous"/>
+
   <style>
-    body { 
-      font-family: system-ui, sans-serif; 
-      margin: 0; 
-      padding: 0; 
-      background: #0f172a; 
-      color: #f1f5f9; 
-      min-height: 100vh; 
+    :root {
+      --bg: #ffffff;
+      --surface: #f9fafb;
+      --text: #111827;
+      --text-muted: #6b7280;
+      --accent: #2563eb;
+      --accent-light: #3b82f6;
+      --positive: #16a34a;
+      --negative: #dc2626;
+      --border: #e5e7eb;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
     }
-    .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
-    h1, h2 { text-align: center; }
-    .grid { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-      gap: 1.5rem; 
-      margin: 2rem 0; 
+    body.dark {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #60a5fa;
+      --accent-light: #93c5fd;
+      --border: #334155;
     }
-    .card { 
-      background: #1e293b; 
-      border-radius: 1rem; 
-      padding: 1.5rem; 
-      border: 1px solid #334155; 
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+      transition: background 0.4s ease, color 0.4s ease;
     }
-    .price-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
-    .price-icon { width: 48px; height: 48px; border-radius: 50%; }
-    .price-symbol { font-size: 1.5rem; font-weight: 600; }
-    .price-value { font-size: 2rem; font-weight: 700; }
-    .change-positive { color: #22c55e; }
-    .change-negative { color: #ef4444; }
-    #chart-container { height: 500px; background: #1e293b; border-radius: 1rem; overflow: hidden; }
-    .x-timeline { max-width: 600px; margin: 0 auto; border-radius: 1rem; overflow: hidden; }
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    header {
+      padding: 6rem 0 4rem;
+      text-align: center;
+    }
+    h1 {
+      font-family: 'Pirata One', cursive;
+      font-size: clamp(3.8rem, 9vw, 6.5rem);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.05em;
+    }
+    .lead {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto 3rem;
+    }
+    main > section {
+      padding: 6rem 0;
+      border-top: 1px solid var(--border);
+    }
+    main > section:first-child { border-top: none; padding-top: 0; }
+    h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 2rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 1.75rem;
+      transition: all 0.25s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+    }
+    .price-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .price-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+    }
+    .price-symbol {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    .price-value {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .change-positive { color: var(--positive); }
+    .change-negative { color: var(--negative); }
+    .chart-container {
+      height: 500px;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+    #theme-toggle {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      padding: 0.75rem 1.25rem;
+      border-radius: 999px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 500;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(10px);
+      transition: all 0.25s ease;
+      z-index: 100;
+    }
+    #theme-toggle:hover {
+      background: var(--accent);
+      color: white;
+      transform: translateY(-2px);
+    }
+    @media (max-width: 768px) {
+      header { padding: 4rem 0 3rem; }
+      h1 { font-size: 3rem; }
+      h2 { font-size: 2rem; }
+      .chart-container { height: 400px; }
+    }
   </style>
 </head>
 <body>
 
   <header class="container">
     <h1>Crypto Market Trades and Trends</h1>
+    <p class="lead">Real-time prices, charts, market insights & crypto flow</p>
   </header>
 
   <main class="container">
-    <!-- Live Prices -->
-    <section>
+    <section data-aos="fade-up">
       <h2>Live Prices</h2>
-      <div id="prices-container" class="grid">
-        <div style="grid-column:1/-1;text-align:center;padding:2rem;">Loading prices...</div>
+      <div class="grid" id="prices-container">
+        <!-- Prices cards inserted here -->
       </div>
     </section>
 
-    <!-- Chart -->
-    <section>
-      <h2>Market Chart</h2>
-      <div id="chart-container">
+    <section data-aos="fade-up" data-aos-delay="100">
+      <h2>Market Overview</h2>
+      <div class="chart-container">
         <div id="tv_chart" style="height:100%;width:100%"></div>
-      </div>
-    </section>
-
-    <!-- X Timeline -->
-    <section>
-      <h2>Latest from @CryptoRaro</h2>
-      <div class="x-timeline">
-        <a class="twitter-timeline"
-           data-height="550"
-           data-theme="dark"
-           data-chrome="noheader nofooter noborders transparent"
-           href="https://twitter.com/CryptoRaro?ref_src=twsrc%5Etfw">
-           Tweets by CryptoRaro
-        </a>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
       </div>
     </section>
   </main>
 
+  <button id="theme-toggle">Toggle Theme</button>
+
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js" crossorigin="anonymous"></script>
   <script>
-    AOS.init({ duration: 800, once: true });
+    AOS.init({ duration: 800, once: true, offset: 80 });
 
-    // Live Prices
-    const container = document.getElementById('prices-container');
-    const coins = ['bitcoin','ethereum','solana','xrp','dogecoin'];
+    // Theme toggle
+    const toggle = document.getElementById('theme-toggle');
+    const body = document.body;
+    let theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    body.classList.add(theme);
+
+    toggle.addEventListener('click', () => {
+      theme = theme === 'dark' ? 'light' : 'dark';
+      body.classList.toggle('dark');
+      body.classList.toggle('light');
+      localStorage.setItem('theme', theme);
+    });
+
+    // Live Prices – now includes XRP and Pengu
+    const pricesContainer = document.getElementById('prices-container');
+    const coins = [
+      'bitcoin', 'ethereum', 'solana', 'xrp', 'dogecoin', 'pengu'
+    ];
+
     const icons = {
       bitcoin: 'https://cryptologos.cc/logos/bitcoin-btc-logo.svg?v=035',
       ethereum: 'https://cryptologos.cc/logos/ethereum-eth-logo.svg?v=035',
       solana: 'https://cryptologos.cc/logos/solana-sol-logo.svg?v=035',
       xrp: 'https://cryptologos.cc/logos/xrp-xrp-logo.svg?v=035',
-      dogecoin: 'https://cryptologos.cc/logos/dogecoin-doge-logo.svg?v=035'
+      dogecoin: 'https://cryptologos.cc/logos/dogecoin-doge-logo.svg?v=035',
+      pengu: 'https://cryptologos.cc/logos/pengu-pengu-logo.svg?v=035' // Pengu (Solana meme coin)
     };
 
     async function loadPrices() {
       try {
-        const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coins.join(',')}&vs_currencies=usd&include_24hr_change=true`);
+        const ids = coins.join(',');
+        const res = await fetch(
+          `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true`
+        );
         const data = await res.json();
-        container.innerHTML = '';
+
+        pricesContainer.innerHTML = '';
+
         coins.forEach(coin => {
           const d = data[coin];
           if (!d) return;
-          const p = d.usd.toLocaleString('en-US', {style:'currency',currency:'USD'});
-          const ch = d.usd_24h_change?.toFixed(2) ?? '–';
-          const cls = Number(ch) >= 0 ? 'change-positive' : 'change-negative';
+
+          const price = d.usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+          const change = d.usd_24h_change?.toFixed(2) || '–';
+          const cls = Number(change) >= 0 ? 'change-positive' : 'change-negative';
           const sym = coin.toUpperCase();
+
           const card = document.createElement('div');
           card.className = 'card';
           card.innerHTML = `
             <div class="price-header">
-              <img src="${icons[coin]}" alt="${sym}">
+              <img src="${icons[coin]}" alt="${sym}" class="price-icon">
               <div>
                 <div class="price-symbol">${sym}</div>
-                <div class="price-value">${p}</div>
+                <div class="price-value">${price}</div>
               </div>
             </div>
-            <div>24h: <span class="${cls}">${ch}%</span></div>
+            <div>24h: <span class="${cls}">${change}%</span></div>
           `;
-          container.appendChild(card);
+          pricesContainer.appendChild(card);
         });
-      } catch (e) {
-        container.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem;color:#ef4444;">Could not load prices</div>';
+      } catch (err) {
+        pricesContainer.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem;color:#ef4444;">Could not load prices</div>';
       }
     }
+
     loadPrices();
-    setInterval(loadPrices, 60000);
+    setInterval(loadPrices, 60000); // refresh every 60s
 
     // TradingView chart
     new TradingView.widget({
@@ -132,7 +260,7 @@
       "symbol": "BINANCE:BTCUSDT",
       "interval": "60",
       "timezone": "Etc/UTC",
-      "theme": "dark",
+      "theme": document.body.classList.contains('dark') ? "dark" : "light",
       "style": "1",
       "locale": "en",
       "enable_publishing": false,
