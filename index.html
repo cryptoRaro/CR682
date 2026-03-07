@@ -3,19 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Crypto Market Trades and Trends – Live prices, charts, breaking news & real-time crypto alpha"/>
+  <meta name="description" content="Crypto Market Trades and Trends – Live prices, charts, news, alerts & real-time crypto insights 🌌"/>
+  <meta property="og:title" content="Crypto Market Trades and Trends"/>
+  <meta property="og:description" content="Real-time crypto prices, market charts, trends, news & blockchain insights."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://cr-682.vercel.app/"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>">
   <title>Crypto Market Trades and Trends</title>
 
-  <!-- Inter: clean modern font -->
+  <!-- Fonts: Inter for body, Pirata One for title -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Pirata+One&display=swap" rel="stylesheet">
 
-  <!-- Pirata One for title -->
-  <link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap" rel="stylesheet">
-
-  <!-- AOS -->
+  <!-- AOS animations -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" crossorigin="anonymous"/>
+
+  <!-- Chart.js for sparklines -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+  <!-- tsParticles for cosmic background -->
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.5.0/tsparticles.all.min.js"></script>
 
   <style>
     :root {
@@ -47,6 +55,12 @@
       min-height: 100vh;
       line-height: 1.6;
       transition: background 0.4s ease, color 0.4s ease;
+    }
+    #tsparticles {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
     }
     .container {
       max-width: 1280px;
@@ -147,6 +161,39 @@
       color: white;
       transform: translateY(-2px);
     }
+    .newsletter form {
+      max-width: 500px;
+      margin: 2rem auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .newsletter input {
+      padding: 1rem;
+      font-size: 1.1rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      color: var(--text);
+    }
+    .newsletter button {
+      padding: 1rem;
+      font-size: 1.15rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .newsletter button:hover { background: var(--accent-light); transform: scale(1.03); }
+    .twitter-timeline {
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      max-width: 600px;
+      margin: 0 auto;
+    }
     @media (max-width: 768px) {
       header { padding: 4rem 0 3rem; }
       h1 { font-size: 3rem; }
@@ -156,6 +203,8 @@
   </style>
 </head>
 <body>
+
+  <div id="tsparticles"></div>
 
   <header class="container">
     <h1>Crypto Market Trades and Trends</h1>
@@ -197,10 +246,22 @@
       localStorage.setItem('theme', theme);
     });
 
-    // Live Prices – now includes XRP and Pengu
+    // Particles (subtle)
+    tsParticles.load("tsparticles", {
+      particles: {
+        number: { value: 30 },
+        color: { value: "#64748b" },
+        opacity: { value: 0.25 },
+        size: { value: { min: 1, max: 3 } },
+        move: { enable: true, speed: 0.4 }
+      },
+      detectRetina: true
+    });
+
+    // Live Prices – with XRP and Pengu fixed
     const pricesContainer = document.getElementById('prices-container');
     const coins = [
-      'bitcoin', 'ethereum', 'solana', 'xrp', 'dogecoin', 'pengu'
+      'bitcoin', 'ethereum', 'solana', 'xrp', 'dogecoin', 'pudgy-penguins'
     ];
 
     const icons = {
@@ -209,7 +270,7 @@
       solana: 'https://cryptologos.cc/logos/solana-sol-logo.svg?v=035',
       xrp: 'https://cryptologos.cc/logos/xrp-xrp-logo.svg?v=035',
       dogecoin: 'https://cryptologos.cc/logos/dogecoin-doge-logo.svg?v=035',
-      pengu: 'https://cryptologos.cc/logos/pengu-pengu-logo.svg?v=035' // Pengu (Solana meme coin)
+      'pudgy-penguins': 'https://cryptologos.cc/logos/pudgy-penguins-pengu-logo.svg?v=035'
     };
 
     async function loadPrices() {
@@ -218,6 +279,7 @@
         const res = await fetch(
           `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true`
         );
+        if (!res.ok) throw new Error('API error');
         const data = await res.json();
 
         pricesContainer.innerHTML = '';
@@ -229,7 +291,7 @@
           const price = d.usd.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
           const change = d.usd_24h_change?.toFixed(2) || '–';
           const cls = Number(change) >= 0 ? 'change-positive' : 'change-negative';
-          const sym = coin.toUpperCase();
+          const sym = coin === 'pudgy-penguins' ? 'PENGU' : coin.toUpperCase();
 
           const card = document.createElement('div');
           card.className = 'card';
@@ -246,12 +308,13 @@
           pricesContainer.appendChild(card);
         });
       } catch (err) {
-        pricesContainer.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem;color:#ef4444;">Could not load prices</div>';
+        pricesContainer.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2rem;color:#dc2626;">Could not load prices – check connection or try later</div>';
+        console.error('Price fetch error:', err);
       }
     }
 
     loadPrices();
-    setInterval(loadPrices, 60000); // refresh every 60s
+    setInterval(loadPrices, 60000);
 
     // TradingView chart
     new TradingView.widget({
