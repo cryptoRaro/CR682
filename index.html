@@ -1,206 +1,180 @@
 <!DOCTYPE html>
-<html lang="en" class="light">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Crypto Market Trades and Trends – Live prices, charts, breaking news & real-time crypto alpha 🌌"/>
+  <meta name="description" content="Crypto Market Trades and Trends – Live prices, charts, breaking news & real-time crypto alpha"/>
   <meta property="og:title" content="Crypto Market Trades and Trends"/>
-  <meta property="og:description" content="Real-time crypto prices, market charts, trends, news & blockchain insights."/>
+  <meta property="og:description" content="Real-time crypto prices, market charts, trends & blockchain insights."/>
   <meta property="og:type" content="website"/>
-  <meta property="og:url" content="https://abs-stream-bot.vercel.app/"/>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌌</text></svg>">
+  <meta property="og:url" content="https://your-vercel-domain.vercel.app/"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
   <title>Crypto Market Trades and Trends</title>
 
-  <!-- Pirata One: sharp blackletter / Old English style -->
+  <!-- Inter: clean modern font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- AOS -->
+  <!-- AOS animations -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" crossorigin="anonymous"/>
-
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-
-  <!-- tsParticles -->
-  <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.5.0/tsparticles.all.min.js"></script>
 
   <style>
     :root {
-      --bg: #f8faff;
-      --text: #0f172a;
-      --accent: #00d4ff;
-      --glow: rgba(0,212,255,0.45);
-      --card-bg: rgba(255,255,255,0.82);
-      --positive: #22c55e;
-      --negative: #ef4444;
-      --border: rgba(0,212,255,0.18);
-      --shadow: 0 12px 32px rgba(0,0,0,0.12);
-      --particles: #ffffff33;
+      --bg: #ffffff;
+      --surface: #f9fafb;
+      --text: #111827;
+      --text-muted: #6b7280;
+      --accent: #2563eb;
+      --accent-light: #3b82f6;
+      --positive: #16a34a;
+      --negative: #dc2626;
+      --border: #e5e7eb;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
     }
+
     body.dark {
-      --bg: #0b1426;
-      --text: #e2e8f0;
-      --accent: #67e8f9;
-      --glow: rgba(103,232,249,0.45);
-      --card-bg: rgba(15,23,42,0.82);
-      --border: rgba(103,232,249,0.22);
-      --shadow: 0 12px 32px rgba(0,0,0,0.4);
-      --particles: #ffffff55;
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #60a5fa;
+      --accent-light: #93c5fd;
+      --border: #334155;
     }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+
     body {
-      margin: 0;
-      font-family: system-ui, sans-serif;
-      background: linear-gradient(145deg, var(--bg), #1e293b);
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      line-height: 1.7;
-      transition: background 0.5s ease, color 0.5s ease;
-      position: relative;
-      overflow-x: hidden;
+      line-height: 1.6;
+      transition: background 0.4s ease, color 0.4s ease;
     }
-    #tsparticles {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
     }
-    .main-grid {
-      display: grid;
-      grid-template-columns: 1fr minmax(auto, 1200px) 1fr;
-      grid-template-areas: 
-        ". header ."
-        ". about ."
-        "projects prices ."
-        ". charts ."
-        ". connect ."
-        ". xfeed ."
-        ". newsletter .";
-      gap: 4.5rem 5.5rem;
-      padding: 5rem 1.5rem 9rem;
-      position: relative;
-      z-index: 1;
+
+    header {
+      padding: 6rem 0 4rem;
+      text-align: center;
     }
-    @media (max-width: 1024px) {
-      .main-grid {
-        grid-template-areas: 
-          "header"
-          "about"
-          "projects"
-          "prices"
-          "charts"
-          "connect"
-          "xfeed"
-          "newsletter";
-        grid-template-columns: 1fr;
-        gap: 5.5rem 3rem;
-      }
-    }
-    header { grid-area: header; text-align: center; }
+
     h1 {
-      font-family: 'Pirata One', cursive;
-      font-size: clamp(4.5rem, 12vw, 8.5rem);
-      text-shadow: 0 0 70px var(--glow);
-      animation: glow-pulse 8s infinite alternate;
-      letter-spacing: 2px;
+      font-size: clamp(3rem, 8vw, 5rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      margin-bottom: 1rem;
     }
-    @keyframes glow-pulse {
-      from { text-shadow: 0 0 40px var(--glow); }
-      to   { text-shadow: 0 0 100px var(--glow), 0 0 160px var(--glow); }
+
+    .lead {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto 3rem;
     }
-    section {
-      background: var(--card-bg);
-      border-radius: 32px;
-      border: 1px solid var(--border);
-      backdrop-filter: blur(16px);
-      padding: 3.2rem;
-      box-shadow: var(--shadow);
-      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    main > section {
+      padding: 6rem 0;
+      border-top: 1px solid var(--border);
     }
-    section:hover {
-      transform: translateY(-16px) scale(1.02);
-      box-shadow: 0 35px 80px rgba(0,0,0,0.2), 0 0 70px var(--glow);
+
+    main > section:first-child {
+      border-top: none;
+      padding-top: 0;
     }
+
     h2 {
-      font-size: 2.8rem;
-      margin-bottom: 2rem;
-      position: relative;
-      display: inline-block;
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 3rem;
     }
-    h2::after {
-      content: '';
-      position: absolute;
-      bottom: -12px; left: 50%; transform: translateX(-50%);
-      width: 100px; height: 6px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-      border-radius: 3px;
-    }
-    .prices-grid, .projects-grid {
+
+    .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 2.2rem;
+      gap: 2rem;
     }
-    .price-card {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      padding: 1.8rem;
-      border-radius: 22px;
-      background: rgba(255,255,255,0.07);
+
+    .card {
+      background: var(--surface);
       border: 1px solid var(--border);
-      transition: all 0.35s;
+      border-radius: 1rem;
+      padding: 1.75rem;
+      transition: all 0.25s ease;
+      box-shadow: var(--shadow-sm);
     }
-    .price-card:hover { background: rgba(255,255,255,0.14); transform: translateY(-8px); }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+    }
+
     .price-header {
       display: flex;
       align-items: center;
-      gap: 1.2rem;
+      gap: 1rem;
+      margin-bottom: 1rem;
     }
-    .price-icon { width: 52px; height: 52px; border-radius: 50%; box-shadow: 0 6px 18px rgba(0,0,0,0.3); }
-    .price-symbol { font-size: 1.6rem; font-weight: 700; }
-    .price-price { font-size: 2.1rem; font-weight: 800; }
-    .sparkline { height: 60px; width: 100%; margin-top: 0.8rem; }
-    .change-positive { color: var(--positive); font-weight: 600; }
-    .change-negative { color: var(--negative); font-weight: 600; }
-    .wallet-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.8rem;
-      padding: 1rem 2.2rem;
-      font-size: 1.15rem;
-      background: linear-gradient(135deg, var(--accent), #0891b2);
-      color: white;
-      border: none;
-      border-radius: 999px;
-      cursor: pointer;
-      box-shadow: 0 12px 36px rgba(0,212,255,0.4);
-      transition: all 0.4s;
-      margin: 2rem 0;
+
+    .price-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
     }
-    .wallet-btn:hover {
-      transform: translateY(-5px) scale(1.05);
-      box-shadow: 0 20px 60px rgba(0,212,255,0.6);
+
+    .price-symbol {
+      font-size: 1.5rem;
+      font-weight: 600;
     }
-    .wallet-btn.connected { background: linear-gradient(135deg, #22c55e, #16a34a); }
-    .connect, .xfeed, .newsletter { text-align: center; }
-    .chart-wrapper { height: 100%; border-radius: 24px; overflow: hidden; border: 1px solid var(--border); background: rgba(0,0,0,0.08); }
-    button#theme-toggle {
+
+    .price-value {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .change-positive { color: var(--positive); }
+    .change-negative { color: var(--negative); }
+
+    .chart-container {
+      height: 500px;
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    #theme-toggle {
       position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      z-index: 1000;
-      padding: 1rem 1.8rem;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      padding: 0.75rem 1.25rem;
       border-radius: 999px;
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(10px);
+      background: var(--surface);
       border: 1px solid var(--border);
       color: var(--text);
-      font-size: 1.1rem;
       cursor: pointer;
-      box-shadow: var(--shadow);
-      transition: all 0.3s;
+      font-weight: 500;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(10px);
+      transition: all 0.25s ease;
+      z-index: 100;
     }
-    button#theme-toggle:hover { background: rgba(255,255,255,0.25); transform: scale(1.1); }
+
+    #theme-toggle:hover {
+      background: var(--accent);
+      color: white;
+      transform: translateY(-2px);
+    }
+
     .newsletter form {
       max-width: 500px;
       margin: 2rem auto 0;
@@ -208,14 +182,16 @@
       flex-direction: column;
       gap: 1rem;
     }
+
     .newsletter input {
       padding: 1rem;
       font-size: 1.1rem;
       border: 1px solid var(--border);
       border-radius: 12px;
-      background: rgba(255,255,255,0.1);
+      background: var(--surface);
       color: var(--text);
     }
+
     .newsletter button {
       padding: 1rem;
       font-size: 1.15rem;
@@ -226,113 +202,81 @@
       cursor: pointer;
       transition: all 0.3s;
     }
-    .newsletter button:hover { background: #00b3d9; transform: scale(1.03); }
+
+    .newsletter button:hover { background: var(--accent-light); transform: scale(1.03); }
+
     .twitter-timeline {
-      border-radius: 20px;
+      border-radius: 1rem;
       overflow: hidden;
       border: 1px solid var(--border);
       max-width: 600px;
       margin: 0 auto;
     }
-    @media (max-width: 640px) {
-      .main-grid { padding: 4rem 1rem 7rem; }
-      h1 { font-size: 3.5rem; }
-      h2 { font-size: 2.3rem; }
-      .charts { height: 420px; }
+
+    @media (max-width: 768px) {
+      header { padding: 4rem 0 3rem; }
+      h1 { font-size: 2.8rem; }
+      h2 { font-size: 2rem; }
+      .chart-container { height: 400px; }
     }
   </style>
 </head>
 <body>
 
-  <div id="tsparticles"></div>
+  <header class="container">
+    <h1>Crypto Market Trades and Trends</h1>
+    <p class="lead">Real-time prices, charts, market insights & crypto flow</p>
+  </header>
 
-  <div class="main-grid">
-    <header data-aos="zoom-in">
-      <h1>Crypto Market Trades and Trends 🌌</h1>
-    </header>
-
-    <section class="about" data-aos="fade-up">
-      <h2>Welcome</h2>
-      <p>Real-time crypto prices, charts, market trends, breaking news & insights.</p>
-      <p><a href="https://x.com/CryptoRaro" target="_blank">Follow @CryptoRaro on X →</a></p>
-    </section>
-
-    <section class="projects" data-aos="fade-up" data-aos-delay="150">
-      <h2>Featured Projects</h2>
-      <div class="projects-grid">
-        <div class="project-card" data-aos="fade-right" data-aos-delay="100">
-          <h3>Token Forge</h3>
-          <p>ERC-20 token factory with governance controls.</p>
-          <a href="https://github.com/cryptoRaro/token-forge">GitHub →</a>
-        </div>
-        <div class="project-card" data-aos="fade-up" data-aos-delay="200">
-          <h3>NFT Dojo Minter</h3>
-          <p>Generative NFTs with on-chain traits & metadata.</p>
-          <a href="https://github.com/cryptoRaro/nft-dojo">GitHub →</a>
-        </div>
-        <div class="project-card" data-aos="fade-left" data-aos-delay="300">
-          <h3>Chain Vibes Dashboard</h3>
-          <p>Multi-chain wallet & price tracker.</p>
-          <a href="https://github.com/cryptoRaro/chain-vibes">GitHub →</a>
+  <main class="container">
+    <section data-aos="fade-up">
+      <h2>Live Prices</h2>
+      <div class="grid" id="prices-container">
+        <div style="grid-column:1/-1; text-align:center; padding:4rem 0; color:var(--text-muted);">
+          Loading market data...
         </div>
       </div>
     </section>
 
-    <section class="prices" data-aos="fade-up" data-aos-delay="250">
-      <h2>Live Prices + Trends</h2>
-      <div class="prices-grid" id="prices-container">
-        <div class="loading">Loading market data...</div>
+    <section data-aos="fade-up" data-aos-delay="100">
+      <h2>Market Overview</h2>
+      <div class="chart-container">
+        <div id="tv_chart" style="height:100%;width:100%"></div>
       </div>
     </section>
 
-    <section class="charts" data-aos="fade-up" data-aos-delay="350">
-      <h2>Market Charts</h2>
-      <div class="chart-wrapper">
-        <div class="tradingview-widget-container" style="height:100%;width:100%">
-          <div id="tv_chart"></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="connect" data-aos="fade-up" data-aos-delay="450">
-      <h2>Connect Wallet</h2>
-      <button class="wallet-btn" id="connect-wallet">
-        <span id="wallet-text">Connect Wallet</span>
-        <span id="wallet-status"></span>
-      </button>
-      <p>Coming soon: full Web3 features.</p>
-    </section>
-
-    <section class="xfeed" data-aos="fade-up" data-aos-delay="500">
+    <section data-aos="fade-up" data-aos-delay="200">
       <h2>Latest from @CryptoRaro on X</h2>
-      <a class="twitter-timeline" 
-         data-height="550" 
-         data-theme="dark" 
+      <a class="twitter-timeline"
+         data-height="550"
+         data-theme="dark"
          data-chrome="noheader nofooter noborders transparent"
          href="https://twitter.com/CryptoRaro?ref_src=twsrc%5Etfw">
          Tweets by CryptoRaro
-      </a> 
+      </a>
       <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     </section>
 
-    <section class="newsletter" data-aos="fade-up" data-aos-delay="550">
-      <h2>Subscribe for Market Updates</h2>
-      <p>Get breaking crypto stories, trends & insights delivered — no spam.</p>
-      <form action="https://formspree.io/f/your-form-id-here" method="POST">
+    <section data-aos="fade-up" data-aos-delay="300">
+      <h2>Subscribe for Updates</h2>
+      <p>Get breaking stories, trends & insights delivered — no spam.</p>
+      <form class="newsletter" action="https://formspree.io/f/your-form-id-here" method="POST">
         <input type="email" name="email" placeholder="Your email address" required autocomplete="email">
         <button type="submit">Subscribe</button>
       </form>
-      <p style="font-size:0.9rem; margin-top:1rem; opacity:0.7;">Secure & free – powered by Formspree. Unsubscribe anytime.</p>
+      <p style="font-size:0.9rem; margin-top:1rem; opacity:0.7; text-align:center;">
+        Secure & free – powered by Formspree. Unsubscribe anytime.
+      </p>
     </section>
-  </div>
+  </main>
 
-  <button id="theme-toggle">🌓 Toggle Theme</button>
+  <button id="theme-toggle">Toggle Theme</button>
 
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js" crossorigin="anonymous"></script>
   <script>
-    AOS.init({ duration: 1000, easing: 'ease-out-quart', once: true, offset: 140 });
+    AOS.init({ duration: 800, once: true, offset: 80 });
 
-    // Theme toggle + particles re-init
+    // Theme toggle
     const toggle = document.getElementById('theme-toggle');
     const body = document.body;
     let theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -343,29 +287,19 @@
       body.classList.toggle('dark');
       body.classList.toggle('light');
       localStorage.setItem('theme', theme);
-      updateParticles();
     });
 
-    async function updateParticles() {
-      const isDark = body.classList.contains('dark');
-      await tsParticles.load("tsparticles", {
-        particles: {
-          number: { value: 70 },
-          color: { value: isDark ? "#ffffff" : "#000000" },
-          shape: { type: "circle" },
-          opacity: { value: 0.5, random: true },
-          size: { value: { min: 1, max: 5 } },
-          move: { enable: true, speed: 0.8, random: true, outModes: "out" },
-          links: { enable: true, distance: 150, color: isDark ? "#ffffff44" : "#00000044", opacity: 0.5 }
-        },
-        interactivity: {
-          events: { onHover: { enable: true, mode: "grab" }, onClick: { enable: true, mode: "push" } },
-          modes: { grab: { distance: 200, links: { opacity: 0.7 } }, push: { quantity: 4 } }
-        },
-        detectRetina: true
-      });
-    }
-    updateParticles();
+    // Particles (very subtle)
+    tsParticles.load("tsparticles", {
+      particles: {
+        number: { value: 30 },
+        color: { value: "#64748b" },
+        opacity: { value: 0.25 },
+        size: { value: { min: 1, max: 3 } },
+        move: { enable: true, speed: 0.4 }
+      },
+      detectRetina: true
+    });
 
     // TradingView chart
     new TradingView.widget({
@@ -382,8 +316,10 @@
       "container_id": "tv_chart"
     });
 
-    // Prices, sparklines, wallet connect – paste your existing code here
-    // ...
+    // Live prices (expand this with your full list of coins & icons)
+    // Example placeholder – replace with your actual fetch logic
+    const pricesContainer = document.getElementById('prices-container');
+    // ... your fetchPrices() function here ...
   </script>
 </body>
 </html>
